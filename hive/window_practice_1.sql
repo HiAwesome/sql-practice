@@ -122,11 +122,13 @@ order by
 20191023	tom	99	3
 */
 
+drop table business_window;
+
 create table business_window
 (
-    name      string,
+    name       string,
     order_date string,
-    cost      int
+    cost       int
 );
 
 insert into table
@@ -166,6 +168,183 @@ jack	2017-04-06	42	5
 */
 
 -- 2、查询顾客的购买明细及月购买总额
+--  计算每月每个用户的消费金额
+select
+    name,
+    order_date,
+    cost,
+    sum(cost) over (partition by name, substr(order_date, 1, 7)) total_cost
+from
+    business_window;
+/*
+jack	2017-01-05	46	111
+jack	2017-01-08	55	111
+jack	2017-01-01	10	111
+jack	2017-02-03	23	23
+jack	2017-04-06	42	42
+mart	2017-04-13	94	299
+mart	2017-04-11	75	299
+mart	2017-04-09	68	299
+mart	2017-04-08	62	299
+neil	2017-05-10	12	12
+neil	2017-06-12	80	80
+tony	2017-01-04	29	94
+tony	2017-01-02	15	94
+tony	2017-01-07	50	94
+*/
+
 -- 3、查询顾客的购买明细及到目前为止每个顾客购买总金额
+--  按照顾客分组、日期升序排序、组内每条数据将之前的金额累加
+select
+    name,
+    order_date,
+    cost,
+    sum(cost) over (partition by name order by order_date rows between unbounded preceding and current row) now_acc_cost
+from
+    business_window;
+/*
+jack	2017-01-01	10	10
+jack	2017-01-05	46	56
+jack	2017-01-08	55	111
+jack	2017-02-03	23	134
+jack	2017-04-06	42	176
+mart	2017-04-08	62	62
+mart	2017-04-09	68	130
+mart	2017-04-11	75	205
+mart	2017-04-13	94	299
+neil	2017-05-10	12	12
+neil	2017-06-12	80	92
+tony	2017-01-02	15	15
+tony	2017-01-04	29	44
+tony	2017-01-07	50	94
+*/
+
 -- 4、查询顾客上次的购买时间----lag()over()偏移量分析函数的运用
--- 5、查询前20%时间的订单信息
+select
+    name,
+    order_date,
+    cost,
+    lag(order_date, 1) over (partition by name order by order_date) last_order_date
+from
+    business_window;
+/*
+jack	2017-01-01	10
+jack	2017-01-05	46	2017-01-01
+jack	2017-01-08	55	2017-01-05
+jack	2017-02-03	23	2017-01-08
+jack	2017-04-06	42	2017-02-03
+mart	2017-04-08	62
+mart	2017-04-09	68	2017-04-08
+mart	2017-04-11	75	2017-04-09
+mart	2017-04-13	94	2017-04-11
+neil	2017-05-10	12
+neil	2017-06-12	80	2017-05-10
+tony	2017-01-02	15
+tony	2017-01-04	29	2017-01-02
+tony	2017-01-07	50	2017-01-04
+*/
+
+-- 5、查询前20%金额的订单信息
+--  ntile 切片函数切割前五分之一
+select
+    name,
+    order_date,
+    cost
+from
+    (
+        select
+            name,
+            order_date,
+            cost,
+            ntile(5) over (order by cost desc) sort_group_num
+        from
+            business_window
+    ) t
+where
+    t.sort_group_num = 1;
+/*
+mart	2017-04-13	94
+neil	2017-06-12	80
+mart	2017-04-11	75
+*/
+
+
+create table score_window
+(
+    name    string,
+    subject string,
+    score   int
+);
+
+insert into table
+    score_window
+values
+    ('孙悟空', '语文', 87),
+    ('孙悟空', '数学', 95),
+    ('孙悟空', '英语', 68),
+    ('大海', '语文', 94),
+    ('大海', '数学', 56),
+    ('大海', '英语', 84),
+    ('宋宋', '语文', 64),
+    ('宋宋', '数学', 86),
+    ('宋宋', '英语', 84),
+    ('婷婷', '语文', 65),
+    ('婷婷', '数学', 85),
+    ('婷婷', '英语', 78);
+
+-- 1、每门学科学生成绩排名(是否并列排名、空位排名三种实现)
+--  比较 rank、dense_rank、row_number
+select
+    name,
+    subject,
+    score,
+    row_number() over (partition by subject order by score desc) rn,
+    rank() over (partition by subject order by score desc)       r,
+    dense_rank() over (partition by subject order by score desc) dr
+from
+    score_window;
+/*
+孙悟空	数学	95	1	1	1
+宋宋	数学	86	2	2	2
+婷婷	数学	85	3	3	3
+大海	数学	56	4	4	4
+宋宋	英语	84	1	1	1
+大海	英语	84	2	1	1
+婷婷	英语	78	3	3	2
+孙悟空	英语	68	4	4	3
+大海	语文	94	1	1	1
+孙悟空	语文	87	2	2	2
+婷婷	语文	65	3	3	3
+宋宋	语文	64	4	4	4
+*/
+
+-- 2、每门学科成绩排名top n的学生
+--  取 top 3 吧
+select
+    name,
+    subject,
+    score,
+    top_n
+from
+    (
+        select
+            name,
+            subject,
+            score,
+            row_number() over (partition by subject order by score desc) top_n
+        from
+            score_window
+    ) t
+where
+    top_n <= 3;
+/*
+孙悟空	数学	95	1
+宋宋	数学	86	2
+婷婷	数学	85	3
+宋宋	英语	84	1
+大海	英语	84	2
+婷婷	英语	78	3
+大海	语文	94	1
+孙悟空	语文	87	2
+婷婷	语文	65	3
+*/
