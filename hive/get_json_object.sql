@@ -1,5 +1,5 @@
 select
-    get_json_object(t.data, '$.delivery_type[0]')
+    get_json_object(t.data, '$.delivery_type[0]') delivery_type_first_value
 from
     (
         select
@@ -22,4 +22,4 @@ from
               ]
             }' data
     ) t;
-
+-- 1801
