@@ -24,10 +24,12 @@ from (
         40 age,
         100 friends
 ) t;
--- zhangsan	40	100	1
--- zhangsan	20	30	2
--- zhangsan	19	20	3
--- zhangsan	18	10	4
+/*
+zhangsan	40	100	1
+zhangsan	20	30	2
+zhangsan	19	20	3
+zhangsan	18	10	4
+*/
 
 select
     name,
@@ -89,10 +91,12 @@ from (
         40 age,
         100 friends
 ) t;
--- zhangsan	40	100	100
--- zhangsan	20	30	100
--- zhangsan	19	20	100
--- zhangsan	18	10	100
+/*
+zhangsan	40	100	100
+zhangsan	20	30	100
+zhangsan	19	20	100
+zhangsan	18	10	100
+*/
 
 select
     distinct name,
