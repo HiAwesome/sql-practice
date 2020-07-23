@@ -1,22 +1,25 @@
--- 测试数据：
--- user_a    location_a    2018-01-01 08:00:00    60
--- user_a    location_a    2018-01-01 09:00:00    60
--- user_a    location_a    2018-01-01 11:00:00    60
--- user_a    location_a    2018-01-01 12:00:00    60
--- user_a    location_b    2018-01-01 10:00:00    60
--- user_a    location_c    2018-01-01 08:00:00    60
--- user_a    location_c    2018-01-01 09:00:00    60
--- user_a    location_c    2018-01-01 10:00:00    60
--- user_b    location_a    2018-01-01 15:00:00    60
--- user_b    location_a    2018-01-01 16:00:00    60
--- user_b    location_a    2018-01-01 18:00:00    60
--- 结果数据：
--- user_a    location_a    2018-01-01 08:00:00    120
--- user_a    location_a    2018-01-01 11:00:00    120
--- user_a    location_b    2018-01-01 10:00:00    60
--- user_a    location_c    2018-01-01 08:00:00    180
--- user_b    location_a    2018-01-01 15:00:00    120
--- user_b    location_a    2018-01-01 18:00:00    60
+-- 题目要求将测试数据转化为结果数据：即把停留时间重叠的用户和地点进行合并
+/*
+测试数据：
+user_a    location_a    2018-01-01 08:00:00    60
+user_a    location_a    2018-01-01 09:00:00    60
+user_a    location_a    2018-01-01 11:00:00    60
+user_a    location_a    2018-01-01 12:00:00    60
+user_a    location_b    2018-01-01 10:00:00    60
+user_a    location_c    2018-01-01 08:00:00    60
+user_a    location_c    2018-01-01 09:00:00    60
+user_a    location_c    2018-01-01 10:00:00    60
+user_b    location_a    2018-01-01 15:00:00    60
+user_b    location_a    2018-01-01 16:00:00    60
+user_b    location_a    2018-01-01 18:00:00    60
+结果数据：
+user_a    location_a    2018-01-01 08:00:00    120
+user_a    location_a    2018-01-01 11:00:00    120
+user_a    location_b    2018-01-01 10:00:00    60
+user_a    location_c    2018-01-01 08:00:00    180
+user_b    location_a    2018-01-01 15:00:00    120
+user_b    location_a    2018-01-01 18:00:00    60
+*/
 
 
 -- 建表
@@ -53,17 +56,19 @@ SELECT
     row_number() OVER (PARTITION BY user_id, location_id ORDER BY u_dt) AS row_number
 FROM
     user_location;
--- user_a	location_a	1514764800	60	1
--- user_a	location_a	1514768400	60	2
--- user_a	location_a	1514775600	60	3
--- user_a	location_a	1514779200	60	4
--- user_a	location_b	1514772000	60	1
--- user_a	location_c	1514764800	60	1
--- user_a	location_c	1514768400	60	2
--- user_a	location_c	1514772000	60	3
--- user_b	location_a	1514790000	60	1
--- user_b	location_a	1514793600	60	2
--- user_b	location_a	1514800800	60	3
+/*
+user_a	location_a	1514764800	60	1
+user_a	location_a	1514768400	60	2
+user_a	location_a	1514775600	60	3
+user_a	location_a	1514779200	60	4
+user_a	location_b	1514772000	60	1
+user_a	location_c	1514764800	60	1
+user_a	location_c	1514768400	60	2
+user_a	location_c	1514772000	60	3
+user_b	location_a	1514790000	60	1
+user_b	location_a	1514793600	60	2
+user_b	location_a	1514800800	60	3
+*/
 
 -- 第二步：获取每条记录的开始时间
 SELECT
@@ -82,17 +87,19 @@ FROM
          row_number() OVER (PARTITION BY user_id, location_id ORDER BY u_dt) AS row_number
      FROM
          user_location) AS temp1;
--- user_a	location_a	1514764800	60	1	1514764800
--- user_a	location_a	1514768400	60	2	1514764800
--- user_a	location_a	1514775600	60	3	1514768400
--- user_a	location_a	1514779200	60	4	1514768400
--- user_a	location_b	1514772000	60	1	1514772000
--- user_a	location_c	1514764800	60	1	1514764800
--- user_a	location_c	1514768400	60	2	1514764800
--- user_a	location_c	1514772000	60	3	1514764800
--- user_b	location_a	1514790000	60	1	1514790000
--- user_b	location_a	1514793600	60	2	1514790000
--- user_b	location_a	1514800800	60	3	1514793600
+/*
+user_a	location_a	1514764800	60	1	1514764800
+user_a	location_a	1514768400	60	2	1514764800
+user_a	location_a	1514775600	60	3	1514768400
+user_a	location_a	1514779200	60	4	1514768400
+user_a	location_b	1514772000	60	1	1514772000
+user_a	location_c	1514764800	60	1	1514764800
+user_a	location_c	1514768400	60	2	1514764800
+user_a	location_c	1514772000	60	3	1514764800
+user_b	location_a	1514790000	60	1	1514790000
+user_b	location_a	1514793600	60	2	1514790000
+user_b	location_a	1514800800	60	3	1514793600
+*/
 
 -- 第三步：分组获取各自数量
 SELECT
@@ -121,13 +128,15 @@ GROUP BY
     user_id,
     location_id,
     start_time;
--- user_id	location_id	start_time	cnt
--- user_a	location_a	1514764800	2
--- user_a	location_a	1514768400	2
--- user_a	location_b	1514772000	1
--- user_a	location_c	1514764800	3
--- user_b	location_a	1514790000	2
--- user_b	location_a	1514793600	1
+/*
+user_id	location_id	start_time	cnt
+user_a	location_a	1514764800	2
+user_a	location_a	1514768400	2
+user_a	location_b	1514772000	1
+user_a	location_c	1514764800	3
+user_b	location_a	1514790000	2
+user_b	location_a	1514793600	1
+*/
 
 -- 最终 SQL:
 SELECT
@@ -162,9 +171,11 @@ FROM
          user_id,
          location_id,
          start_time) AS temp3;
--- user_a	location_a	2018-01-01 08:00:00	120
--- user_a	location_a	2018-01-01 09:00:00	120
--- user_a	location_b	2018-01-01 10:00:00	60
--- user_a	location_c	2018-01-01 08:00:00	180
--- user_b	location_a	2018-01-01 15:00:00	120
--- user_b	location_a	2018-01-01 16:00:00	60
+/*
+user_a	location_a	2018-01-01 08:00:00	120
+user_a	location_a	2018-01-01 09:00:00	120
+user_a	location_b	2018-01-01 10:00:00	60
+user_a	location_c	2018-01-01 08:00:00	180
+user_b	location_a	2018-01-01 15:00:00	120
+user_b	location_a	2018-01-01 16:00:00	60
+*/
