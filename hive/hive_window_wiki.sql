@@ -104,9 +104,71 @@ Lead and Lag functions.
 CumeDist 和 PercentRank 的练习见 windows_hive_function.sql 最后
 适合完成当前数据在总数据中或细分组数据中位置的查询。
 
+row_number 经测试不支持带有窗口。
+
 支持带窗口的函数仅有：
 计算函数：sum、count、avg、max、min
 取值函数的两端：first_value、last_value
-排序函数的序号：row_number
 */
 
+-- first_value and window
+select
+    name,
+    cost,
+    -- 向前取一位
+    first_value(cost) over (rows between 1 preceding and current row) f_cost1,
+    -- 取最开头
+    first_value(cost) over (rows between unbounded preceding and current row) f_cost2,
+    -- 加排序
+    first_value(cost) over (order by cost rows between unbounded preceding and current row) f_cost3,
+    -- 加分区和排序
+    first_value(cost) over (partition by name order by cost rows between unbounded preceding and current row) f_cost4
+from
+    business_window;
+/*
+jack	10	15	94	10	10
+jack	23	29	94	10	10
+jack	42	50	94	10	10
+jack	46	42	94	10	10
+jack	55	62	94	10	10
+mart	62	68	94	10	62
+mart	68	12	94	10	62
+mart	75	80	94	10	62
+mart	94	94	94	10	62
+neil	12	75	94	10	12
+neil	80	94	94	10	12
+tony	15	23	94	10	15
+tony	29	46	94	10	15
+tony	50	55	94	10	15
+*/
+
+-- last_value and window
+select
+    name,
+    cost,
+    -- 向后取一位
+    last_value(cost) over (rows between current row and 1 following) l_cost1,
+    -- 取最后头
+    last_value(cost) over (rows between current row and unbounded following) l_cost2,
+    -- 加排序
+    last_value(cost) over (order by cost rows between current row and unbounded following) l_cost3,
+    -- 加分区和排序
+    last_value(cost) over (partition by name order by cost rows between current row and unbounded following) l_cost4
+from
+    business_window;
+/*
+jack	10	10	10	94	55
+jack	23	15	10	94	55
+jack	42	46	10	94	55
+jack	46	29	10	94	55
+jack	55	50	10	94	55
+mart	62	55	10	94	94
+mart	68	62	10	94	94
+mart	75	12	10	94	94
+mart	94	80	10	94	94
+neil	12	68	10	94	80
+neil	80	75	10	94	80
+tony	15	10	10	94	50
+tony	29	23	10	94	50
+tony	50	42	10	94	50
+*/
