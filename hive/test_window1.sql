@@ -86,4 +86,86 @@ from
 */
 
 -- 3、计算从第一天到现在的所有 score 大于80分的用户总数
+--  over 函数中不包括谓词逻辑，仍然需要 where 进行过滤。
+select
+    log_day,
+    user_name,
+    score,
+    count() over (order by log_day rows between unbounded preceding and current row) as total
+from
+    test_window1
+where
+    score > 80;
+
+
 -- 4、计算每个用户到当前日期分数大于80的天数
+--  根据题目 3 的要求并对每个用户开窗，加上全局 order by 使得结果更有序。
+select
+    log_day,
+    user_name,
+    score,
+    count() over (partition by user_name order by log_day rows between unbounded preceding and current row) as total
+from
+    test_window1
+where
+    score > 80
+order by
+    log_day,
+    user_name;
+/*
+20191020	jack	83	1
+20191020	nancy	86	1
+20191020	tom	85	1
+20191021	nancy	98	2
+20191021	tom	87	2
+20191022	nancy	88	3
+20191023	tom	99	3
+*/
+
+create table business_window
+(
+    name      string,
+    order_date string,
+    cost      int
+);
+
+insert into table
+    business_window
+values
+    ('jack', '2017-01-01', 10),
+    ('tony', '2017-01-02', 15),
+    ('jack', '2017-02-03', 23),
+    ('tony', '2017-01-04', 29),
+    ('jack', '2017-01-05', 46),
+    ('jack', '2017-04-06', 42),
+    ('tony', '2017-01-07', 50),
+    ('jack', '2017-01-08', 55),
+    ('mart', '2017-04-08', 62),
+    ('mart', '2017-04-09', 68),
+    ('neil', '2017-05-10', 12),
+    ('mart', '2017-04-11', 75),
+    ('neil', '2017-06-12', 80),
+    ('mart', '2017-04-13', 94);
+
+-- 1、查询在2017年4月份购买过的顾客及总人数
+select
+    name,
+    order_date,
+    cost,
+    count() over () all_nums
+from
+    business_window
+where
+    substr(order_date, 1, 7) = '2017-04';
+/*
+mart	2017-04-13	94	5
+mart	2017-04-11	75	5
+mart	2017-04-09	68	5
+mart	2017-04-08	62	5
+jack	2017-04-06	42	5
+*/
+
+-- 2、查询顾客的购买明细及月购买总额
+-- 3、查询顾客的购买明细及到目前为止每个顾客购买总金额
+-- 4、查询顾客上次的购买时间----lag()over()偏移量分析函数的运用
+-- 5、查询前20%时间的订单信息
