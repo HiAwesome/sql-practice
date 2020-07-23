@@ -79,3 +79,40 @@ from (
         'zhangsan' name,
         21 age
 ) t;
+
+
+select
+    name,
+    age,
+    row_num,
+    ceil(row_num / 2) slice
+from (
+     select
+         name,
+         age,
+         row_number() over (partition by name) row_num
+     from (
+         select
+             'zhangsan' name,
+             18 age
+         UNION ALL
+         select
+             'zhangsan' name,
+             19 age
+         UNION ALL
+         select
+             'zhangsan' name,
+             20 age
+         UNION ALL
+         select
+             'zhangsan' name,
+             21 age
+     ) t
+) z;
+
+-- zhangsan,21,1,1
+-- zhangsan,20,2,1
+-- zhangsan,19,3,2
+-- zhangsan,18,4,2
+
+
