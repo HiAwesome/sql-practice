@@ -66,13 +66,47 @@ tony	2017-01-02	15	94	50	15	31.33	3
 tony	2017-01-07	50	94	50	15	31.33	3
 */
 
+-- 2、 over 内部为空
+select
+    name,
+    order_date,
+    cost,
+    sum(cost) over () all_cost,
+    max(cost) over () max_cost,
+    min(cost) over () min_cost,
+    -- 这里加上一个 round 去掉 avg 运算冗长的小数部分
+    round(avg(cost) over (), 2) avg_cost,
+    count(cost) over () count_cost
+from
+    business_window;
 /*
-OVER 子句支持以下功能，但不支持带有它们的窗口（请参见 HIVE-4797 https://issues.apache.org/jira/browse/HIVE-4797）：
-
-排名函数：Rank, NTile, DenseRank, CumeDist, PercentRank.
-
-Lead and Lag functions.
+mart	2017-04-13	94	661	94	10	47.21	14
+neil	2017-06-12	80	661	94	10	47.21	14
+mart	2017-04-11	75	661	94	10	47.21	14
+neil	2017-05-10	12	661	94	10	47.21	14
+mart	2017-04-09	68	661	94	10	47.21	14
+mart	2017-04-08	62	661	94	10	47.21	14
+jack	2017-01-08	55	661	94	10	47.21	14
+tony	2017-01-07	50	661	94	10	47.21	14
+jack	2017-04-06	42	661	94	10	47.21	14
+jack	2017-01-05	46	661	94	10	47.21	14
+tony	2017-01-04	29	661	94	10	47.21	14
+jack	2017-02-03	23	661	94	10	47.21	14
+tony	2017-01-02	15	661	94	10	47.21	14
+jack	2017-01-01	10	661	94	10	47.21	14
 */
 
--- CumeDist 和 PercentRank 的练习见 windows_hive_function.sql 最后
--- 适合完成当前数据在总数据中或细分组数据中位置的查询。
+/*
+OVER 子句支持以下功能，但不支持带有它们的窗口（请参见 HIVE-4797 https://issues.apache.org/jira/browse/HIVE-4797）：
+排名函数：Rank, NTile, DenseRank, CumeDist, PercentRank.
+Lead and Lag functions.
+
+CumeDist 和 PercentRank 的练习见 windows_hive_function.sql 最后
+适合完成当前数据在总数据中或细分组数据中位置的查询。
+
+支持带窗口的函数仅有：
+计算函数：sum、count、avg、max、min
+取值函数的两端：first_value、last_value
+排序函数的序号：row_number
+*/
+
