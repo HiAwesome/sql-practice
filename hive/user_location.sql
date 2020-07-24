@@ -21,9 +21,10 @@ user_b    location_a    2018-01-01 15:00:00    120
 user_b    location_a    2018-01-01 18:00:00    60
 */
 
+drop table user_location;
 
 -- 建表
-CREATE TABLE IF NOT EXISTS `user_location`
+CREATE TABLE IF NOT EXISTS user_location
 (
     user_id     string,
     location_id string,
@@ -65,6 +66,8 @@ select
 UNION ALL
 select
     'user_b', 'location_a', '2018-01-01 18:00:00', 60;
+
+select * from user_location;
 
 -- 第一步：开窗函数
 SELECT

@@ -58,6 +58,8 @@ UNION ALL
 select
     '20191023', 'jack', 33;
 
+select * from test_window1;
+
 -- 1、使用 over() 函数进行数据统计, 统计每个用户及表中数据的总数
 --  即为每一行后面新增一个总条数
 select
@@ -193,6 +195,8 @@ UNION ALL
 select
     'mart', '2017-04-13', 94;
 
+select * from business_window;
+
 -- 1、查询在2017年4月份购买过的顾客及总人数
 select
     name,
@@ -312,6 +316,7 @@ neil	2017-06-12	80
 mart	2017-04-11	75
 */
 
+drop table score_window;
 
 create table score_window
 (
@@ -356,6 +361,8 @@ select
 UNION ALL
 select
     '婷婷', '英语', 78;
+
+select * from score_window;
 
 -- 1、每门学科学生成绩排名(是否并列排名、空位排名三种实现)
 --  比较 rank、dense_rank、row_number
