@@ -24,20 +24,39 @@ create table test_window1
     score     int
 );
 
-insert into table
-    test_window1
-values
-    ('20191020', 'tom', 85),
-    ('20191020', 'jack', 83),
-    ('20191020', 'nancy', 86),
-    ('20191021', 'tom', 87),
-    ('20191021', 'jack', 65),
-    ('20191021', 'nancy', 98),
-    ('20191022', 'tom', 67),
-    ('20191022', 'jack', 34),
-    ('20191022', 'nancy', 88),
-    ('20191023', 'tom', 99),
-    ('20191023', 'jack', 33);
+insert into table test_window1
+select
+    '20191020', 'tom', 85
+UNION ALL
+select
+    '20191020', 'jack', 83
+UNION ALL
+select
+    '20191020', 'nancy', 86
+UNION ALL
+select
+    '20191021', 'tom', 87
+UNION ALL
+select
+    '20191021', 'jack', 65
+UNION ALL
+select
+    '20191021', 'nancy', 98
+UNION ALL
+select
+    '20191022', 'tom', 67
+UNION ALL
+select
+    '20191022', 'jack', 34
+UNION ALL
+select
+    '20191022', 'nancy', 88
+UNION ALL
+select
+    '20191023', 'tom', 99
+UNION ALL
+select
+    '20191023', 'jack', 33;
 
 -- 1、使用 over() 函数进行数据统计, 统计每个用户及表中数据的总数
 --  即为每一行后面新增一个总条数
@@ -131,23 +150,48 @@ create table business_window
     cost       int
 );
 
-insert into table
-    business_window
-values
-    ('jack', '2017-01-01', 10),
-    ('tony', '2017-01-02', 15),
-    ('jack', '2017-02-03', 23),
-    ('tony', '2017-01-04', 29),
-    ('jack', '2017-01-05', 46),
-    ('jack', '2017-04-06', 42),
-    ('tony', '2017-01-07', 50),
-    ('jack', '2017-01-08', 55),
-    ('mart', '2017-04-08', 62),
-    ('mart', '2017-04-09', 68),
-    ('neil', '2017-05-10', 12),
-    ('mart', '2017-04-11', 75),
-    ('neil', '2017-06-12', 80),
-    ('mart', '2017-04-13', 94);
+insert into table business_window
+select
+    'jack', '2017-01-01', 10
+UNION ALL
+select
+    'tony', '2017-01-02', 15
+UNION ALL
+select
+    'jack', '2017-02-03', 23
+UNION ALL
+select
+    'tony', '2017-01-04', 29
+UNION ALL
+select
+    'jack', '2017-01-05', 46
+UNION ALL
+select
+    'jack', '2017-04-06', 42
+UNION ALL
+select
+    'tony', '2017-01-07', 50
+UNION ALL
+select
+    'jack', '2017-01-08', 55
+UNION ALL
+select
+    'mart', '2017-04-08', 62
+UNION ALL
+select
+    'mart', '2017-04-09', 68
+UNION ALL
+select
+    'neil', '2017-05-10', 12
+UNION ALL
+select
+    'mart', '2017-04-11', 75
+UNION ALL
+select
+    'neil', '2017-06-12', 80
+UNION ALL
+select
+    'mart', '2017-04-13', 94;
 
 -- 1、查询在2017年4月份购买过的顾客及总人数
 select
@@ -276,21 +320,42 @@ create table score_window
     score   int
 );
 
-insert into table
-    score_window
-values
-    ('孙悟空', '语文', 87),
-    ('孙悟空', '数学', 95),
-    ('孙悟空', '英语', 68),
-    ('大海', '语文', 94),
-    ('大海', '数学', 56),
-    ('大海', '英语', 84),
-    ('宋宋', '语文', 64),
-    ('宋宋', '数学', 86),
-    ('宋宋', '英语', 84),
-    ('婷婷', '语文', 65),
-    ('婷婷', '数学', 85),
-    ('婷婷', '英语', 78);
+insert into table score_window
+select
+    '孙悟空', '语文', 87
+UNION ALL
+select
+    '孙悟空', '数学', 95
+UNION ALL
+select
+    '孙悟空', '英语', 68
+UNION ALL
+select
+    '大海', '语文', 94
+UNION ALL
+select
+    '大海', '数学', 56
+UNION ALL
+select
+    '大海', '英语', 84
+UNION ALL
+select
+    '宋宋', '语文', 64
+UNION ALL
+select
+    '宋宋', '数学', 86
+UNION ALL
+select
+    '宋宋', '英语', 84
+UNION ALL
+select
+    '婷婷', '语文', 65
+UNION ALL
+select
+    '婷婷', '数学', 85
+UNION ALL
+select
+    '婷婷', '英语', 78;
 
 -- 1、每门学科学生成绩排名(是否并列排名、空位排名三种实现)
 --  比较 rank、dense_rank、row_number
