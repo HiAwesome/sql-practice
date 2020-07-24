@@ -95,7 +95,8 @@ select
     create_date
 from
     order_tab
-window window_alias as (partition by user_no order by amount desc);
+window
+    window_alias as (partition by user_no order by amount desc);
 /*
 1	5	001	900	2018-01-04 00:00:00
 2	4	001	800	2018-01-03 00:00:00
@@ -110,5 +111,37 @@ window window_alias as (partition by user_no order by amount desc);
 */
 
 
+/*
+partition子句：窗口按照那些字段进行分组，窗口函数在不同的分组上分别执行。上面的例子就按照用户id进行了分组。
+在每个用户id上，按照order by的顺序分别生成从1开始的顺序编号。
 
+order by子句：按照哪些字段进行排序，窗口函数将按照排序后的记录顺序进行编号。
+可以和partition子句配合使用，也可以单独使用。
+上例中二者同时使用，如果没有partition子句，则会按照所有用户的订单金额排序来生成序号。
 
+frame子句：frame是当前分区的一个子集，子句用来定义子集的规则，通常用来作为滑动窗口使用。
+比如要根据每个订单动态计算包括本订单和按时间顺序前后两个订单的平均订单金额，则可以设置如下frame子句来创建滑动窗口：
+*/
+
+select
+    order_id,
+    user_no,
+    amount,
+    avg(amount) over window_alias as avg_num,
+    create_date
+from
+    order_tab
+window
+    window_alias as (partition by user_no order by create_date desc rows between 1 preceding and 1 following);
+/*
+5	001	900	850.0000	2018-01-04 00:00:00
+4	001	800	666.6667	2018-01-03 00:00:00
+2	001	300	533.3333	2018-01-02 00:00:00
+3	001	500	300.0000	2018-01-02 00:00:00
+1	001	100	300.0000	2018-01-01 00:00:00
+10	002	800	800.0000	2018-01-22 00:00:00
+9	002	800	633.3333	2018-01-16 00:00:00
+8	002	300	566.6667	2018-01-10 00:00:00
+7	002	600	466.6667	2018-01-04 00:00:00
+6	002	500	550.0000	2018-01-03 00:00:00
+*/

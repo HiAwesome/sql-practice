@@ -319,3 +319,26 @@ from
 -- rn2: 按照产品类型分组，product_type=厨房用品的行数为4,
 -- 第三行：排序为1，因此，（1-1）/（4-1）= 0
 -- 第四行：排序为1，因此，（2-1）/（4-1）= 0.33
+
+-- 测试 Hive 开窗函数为 over 子句起别名
+select
+    product_type,
+    product_name,
+    sale_price,
+    percent_rank() over w as rn1,
+    percent_rank() over s as rn2
+from
+    windows_product
+window
+    w as (order by sale_price),
+    s as (partition by product_type order by sale_price);
+/*
+办公用品	圆珠笔	100	0	0
+办公用品	打孔器	500	0.14285714285714285	1
+厨房用品	叉子	500	0.14285714285714285	0
+厨房用品	插菜板	880	0.42857142857142855	0.3333333333333333
+厨房用品	菜刀	3000	0.7142857142857143	0.6666666666666666
+厨房用品	高压锅	6800	1	1
+衣服	T恤衫	1000	0.5714285714285714	0
+衣服	运动T恤	4000	0.8571428571428571	1
+*/
