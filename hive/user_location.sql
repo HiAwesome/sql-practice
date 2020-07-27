@@ -140,7 +140,7 @@ group by
     user_id,
     location_id,
     start_time
-UNION
+UNION ALL
 select
     user_id,
     location_id,
