@@ -105,7 +105,7 @@ select *
 from
     user_location;
 
--- 目前必须经过一次迭代，严重依赖数据，寻找可以不再迭代的方法
+-- fixme 目前必须经过一次迭代，严重依赖数据，继续寻找可以不依赖数据进行多次迭代的方法
 select
     user_id,
     location_id,
