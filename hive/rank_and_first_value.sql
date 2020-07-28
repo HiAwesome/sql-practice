@@ -4,25 +4,10 @@ select
     friends,
     rank() over (partition by name order by age desc) rank
 from (
-    select
-        'zhangsan' name,
-        18 age,
-        10 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        19 age,
-        20 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        20 age,
-        30 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        40 age,
-        100 friends
+    select 'zhangsan' name, 18 age, 10 friends
+    UNION ALL select 'zhangsan' name, 19 age, 20 friends
+    UNION ALL select 'zhangsan' name, 20 age, 30 friends
+    UNION ALL select 'zhangsan' name, 40 age, 100 friends
 ) t;
 /*
 zhangsan	40	100	1
@@ -40,25 +25,10 @@ from (
          friends,
          rank() over (partition by name order by age desc) rank
      from (
-         select
-             'zhangsan' name,
-             18 age,
-             10 friends
-         UNION ALL
-         select
-             'zhangsan' name,
-             19 age,
-             20 friends
-         UNION ALL
-         select
-             'zhangsan' name,
-             20 age,
-             30 friends
-         UNION ALL
-         select
-             'zhangsan' name,
-             40 age,
-             100 friends
+         select 'zhangsan' name, 18 age, 10 friends
+         UNION ALL select 'zhangsan' name, 19 age, 20 friends
+         UNION ALL select 'zhangsan' name, 20 age, 30 friends
+         UNION ALL select 'zhangsan' name, 40 age, 100 friends
      ) t
 ) z
 where
@@ -71,25 +41,10 @@ select
     friends,
     first_value(friends) over (partition by name order by age desc) first_value
 from (
-    select
-        'zhangsan' name,
-        18 age,
-        10 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        19 age,
-        20 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        20 age,
-        30 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        40 age,
-        100 friends
+    select 'zhangsan' name, 18 age, 10 friends
+    UNION ALL select 'zhangsan' name, 19 age, 20 friends
+    UNION ALL select 'zhangsan' name, 20 age, 30 friends
+    UNION ALL select 'zhangsan' name, 40 age, 100 friends
 ) t;
 /*
 zhangsan	40	100	100
@@ -102,25 +57,10 @@ select
     distinct name,
     first_value(friends) over (partition by name order by age desc) first_value
 from (
-    select
-        'zhangsan' name,
-        18 age,
-        10 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        19 age,
-        20 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        20 age,
-        30 friends
-    UNION ALL
-    select
-        'zhangsan' name,
-        40 age,
-        100 friends
+    select 'zhangsan' name, 18 age, 10 friends
+    UNION ALL select 'zhangsan' name, 19 age, 20 friends
+    UNION ALL select 'zhangsan' name, 20 age, 30 friends
+    UNION ALL select 'zhangsan' name, 40 age, 100 friends
 ) t;
 -- zhangsan	100
 

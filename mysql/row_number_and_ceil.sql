@@ -11,21 +11,10 @@ from
             row_number() over (order by name) row_num
         from
             (
-                select
-                    'zhangsan' name,
-                    18         age
-                UNION ALL
-                select
-                    'zhangsan' name,
-                    19         age
-                UNION ALL
-                select
-                    'zhangsan' name,
-                    20         age
-                UNION ALL
-                select
-                    'zhangsan' name,
-                    21         age
+                select 'zhangsan' name, 18 age
+                UNION ALL select 'zhangsan' name, 19 age
+                UNION ALL select 'zhangsan' name, 20 age
+                UNION ALL select 'zhangsan' name, 21 age
             ) t
     ) z;
 # zhangsan,18,1,1
@@ -39,21 +28,10 @@ select
     ceil(row_number() over () / 3) slice
 from
     (
-        select
-            'zhangsan' name,
-            18         age
-        UNION ALL
-        select
-            'zhangsan' name,
-            19         age
-        UNION ALL
-        select
-            'zhangsan' name,
-            20         age
-        UNION ALL
-        select
-            'zhangsan' name,
-            21         age
+        select 'zhangsan' name, 18 age
+        UNION ALL select 'zhangsan' name, 19 age
+        UNION ALL select 'zhangsan' name, 20 age
+        UNION ALL select 'zhangsan' name, 21 age
     ) t;
 # zhangsan	18	1
 # zhangsan	19	1
@@ -66,21 +44,10 @@ select
     row_number() over () row_num
 from
     (
-        select
-            'zhangsan' name,
-            18         age
-        UNION ALL
-        select
-            'zhangsan' name,
-            19         age
-        UNION ALL
-        select
-            'zhangsan' name,
-            20         age
-        UNION ALL
-        select
-            'zhangsan' name,
-            21         age
+        select 'zhangsan' name, 18 age
+        UNION ALL select 'zhangsan' name, 19 age
+        UNION ALL select 'zhangsan' name, 20 age
+        UNION ALL select 'zhangsan' name, 21 age
     ) t;
 # zhangsan	18	1
 # zhangsan	19	2
@@ -97,25 +64,11 @@ select
     row_number() over ()                  row_num
 from
     (
-        select
-            'zhangsan' name,
-            18         age
-        UNION ALL
-        select
-            'zhangsan' name,
-            19         age
-        UNION ALL
-        select
-            'lisi' name,
-            20     age
-        UNION ALL
-        select
-            'zhangsan' name,
-            21         age
-        UNION ALL
-        select
-            'zhangsan' name,
-            22         age
+        select 'zhangsan' name, 18 age
+        UNION ALL select 'zhangsan' name, 19 age
+        UNION ALL select 'zhangsan' name, 20 age
+        UNION ALL select 'zhangsan' name, 21 age
+        UNION ALL select 'zhangsan' name, 22 age
     ) t;
 # lisi,20,3,1,1,1
 # zhangsan,18,1,2,1,2

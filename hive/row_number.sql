@@ -9,21 +9,10 @@ from (
          age,
          row_number() over (order by age) row_num
      from (
-         select
-             'zhangsan' name,
-             18 age
-         UNION ALL
-         select
-             'zhangsan' name,
-             19 age
-         UNION ALL
-         select
-             'zhangsan' name,
-             20 age
-         UNION ALL
-         select
-             'zhangsan' name,
-             21 age
+         select 'zhangsan' name, 18 age
+         UNION ALL select 'zhangsan' name, 19 age
+         UNION ALL select 'zhangsan' name, 20 age
+         UNION ALL select 'zhangsan' name, 21 age
      ) t
 ) z;
 /*
@@ -38,21 +27,10 @@ select
     age,
     ceil(row_number() over (order by age) / 2) slice
 from (
-    select
-        'zhangsan' name,
-        18 age
-    UNION ALL
-    select
-        'zhangsan' name,
-        19 age
-    UNION ALL
-    select
-        'zhangsan' name,
-        20 age
-    UNION ALL
-    select
-        'zhangsan' name,
-        21 age
+    select 'zhangsan' name, 18 age
+    UNION ALL select 'zhangsan' name, 19 age
+    UNION ALL select 'zhangsan' name, 20 age
+    UNION ALL select 'zhangsan' name, 21 age
 ) t;
 /*
 zhangsan	18	1
@@ -73,21 +51,10 @@ from (
          age,
          row_number() over (partition by name) row_num
      from (
-         select
-             'zhangsan' name,
-             18 age
-         UNION ALL
-         select
-             'zhangsan' name,
-             19 age
-         UNION ALL
-         select
-             'zhangsan' name,
-             20 age
-         UNION ALL
-         select
-             'zhangsan' name,
-             21 age
+         select 'zhangsan' name, 18 age
+         UNION ALL select 'zhangsan' name, 19 age
+         UNION ALL select 'zhangsan' name, 20 age
+         UNION ALL select 'zhangsan' name, 21 age
      ) t
 ) z;
 /*
@@ -106,65 +73,21 @@ select
     ntile(3) over () n3,
     ntile(5) over () n5
 from (
-    select
-        'lisi' name,
-        18 age
-    UNION ALL
-    select
-        'lisi' name,
-        19 age
-    UNION ALL
-    select
-        'lisi' name,
-        20 age
-    UNION ALL
-    select
-        'lisi' name,
-        21 age
-    UNION ALL
-    select
-        'lisi' name,
-        18 age
-    UNION ALL
-    select
-        'lisi' name,
-        19 age
-    UNION ALL
-    select
-        'lisi' name,
-        20 age
-    UNION ALL
-    select
-        'lisi' name,
-        21 age
-    UNION ALL
-    select
-        'lisi' name,
-        18 age
-    UNION ALL
-    select
-        'lisi' name,
-        19 age
-    UNION ALL
-    select
-        'lisi' name,
-        20 age
-    UNION ALL
-    select
-        'lisi' name,
-        21 age
-    UNION ALL
-    select
-        'lisi' name,
-        18 age
-    UNION ALL
-    select
-        'lisi' name,
-        19 age
-    UNION ALL
-    select
-        'lisi' name,
-        20 age
+    select 'lisi' name, 18 age
+    UNION ALL select 'lisi' name, 19 age
+    UNION ALL select 'lisi' name, 20 age
+    UNION ALL select 'lisi' name, 21 age
+    UNION ALL select 'lisi' name, 18 age
+    UNION ALL select 'lisi' name, 19 age
+    UNION ALL select 'lisi' name, 20 age
+    UNION ALL select 'lisi' name, 21 age
+    UNION ALL select 'lisi' name, 18 age
+    UNION ALL select 'lisi' name, 19 age
+    UNION ALL select 'lisi' name, 20 age
+    UNION ALL select 'lisi' name, 21 age
+    UNION ALL select 'lisi' name, 18 age
+    UNION ALL select 'lisi' name, 19 age
+    UNION ALL select 'lisi' name, 20 age
 ) t;
 /*
 lisi	20	1	1	1	1	1

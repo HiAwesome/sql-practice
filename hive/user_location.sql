@@ -35,71 +35,17 @@ CREATE TABLE IF NOT EXISTS user_location
 -- 插入数据
 insert into table
     user_location
-select
-    'user_a',
-    'location_a',
-    '2018-01-01 08:00:00',
-    60
-UNION ALL
-select
-    'user_a',
-    'location_a',
-    '2018-01-01 09:00:00',
-    60
-UNION ALL
-select
-    'user_a',
-    'location_a',
-    '2018-01-01 11:00:00',
-    60
-UNION ALL
-select
-    'user_a',
-    'location_a',
-    '2018-01-01 12:00:00',
-    60
-UNION ALL
-select
-    'user_a',
-    'location_b',
-    '2018-01-01 10:00:00',
-    60
-UNION ALL
-select
-    'user_a',
-    'location_c',
-    '2018-01-01 08:00:00',
-    60
-UNION ALL
-select
-    'user_a',
-    'location_c',
-    '2018-01-01 09:00:00',
-    60
-UNION ALL
-select
-    'user_a',
-    'location_c',
-    '2018-01-01 10:00:00',
-    60
-UNION ALL
-select
-    'user_b',
-    'location_a',
-    '2018-01-01 15:00:00',
-    60
-UNION ALL
-select
-    'user_b',
-    'location_a',
-    '2018-01-01 16:00:00',
-    60
-UNION ALL
-select
-    'user_b',
-    'location_a',
-    '2018-01-01 18:00:00',
-    60;
+select 'user_a', 'location_a', '2018-01-01 08:00:00', 60
+UNION ALL select 'user_a', 'location_a', '2018-01-01 09:00:00', 60
+UNION ALL select 'user_a', 'location_a', '2018-01-01 11:00:00', 60
+UNION ALL select 'user_a', 'location_a', '2018-01-01 12:00:00', 60
+UNION ALL select 'user_a', 'location_b', '2018-01-01 10:00:00', 60
+UNION ALL select 'user_a', 'location_c', '2018-01-01 08:00:00', 60
+UNION ALL select 'user_a', 'location_c', '2018-01-01 09:00:00', 60
+UNION ALL select 'user_a', 'location_c', '2018-01-01 10:00:00', 60
+UNION ALL select 'user_b', 'location_a', '2018-01-01 15:00:00', 60
+UNION ALL select 'user_b', 'location_a', '2018-01-01 16:00:00', 60
+UNION ALL select 'user_b', 'location_a', '2018-01-01 18:00:00', 60;
 
 select *
 from

@@ -25,38 +25,17 @@ create table test_window1
 );
 
 insert into table test_window1
-select
-    '20191020', 'tom', 85
-UNION ALL
-select
-    '20191020', 'jack', 83
-UNION ALL
-select
-    '20191020', 'nancy', 86
-UNION ALL
-select
-    '20191021', 'tom', 87
-UNION ALL
-select
-    '20191021', 'jack', 65
-UNION ALL
-select
-    '20191021', 'nancy', 98
-UNION ALL
-select
-    '20191022', 'tom', 67
-UNION ALL
-select
-    '20191022', 'jack', 34
-UNION ALL
-select
-    '20191022', 'nancy', 88
-UNION ALL
-select
-    '20191023', 'tom', 99
-UNION ALL
-select
-    '20191023', 'jack', 33;
+select '20191020', 'tom', 85
+UNION ALL select '20191020', 'jack', 83
+UNION ALL select '20191020', 'nancy', 86
+UNION ALL select '20191021', 'tom', 87
+UNION ALL select '20191021', 'jack', 65
+UNION ALL select '20191021', 'nancy', 98
+UNION ALL select '20191022', 'tom', 67
+UNION ALL select '20191022', 'jack', 34
+UNION ALL select '20191022', 'nancy', 88
+UNION ALL select '20191023', 'tom', 99
+UNION ALL select '20191023', 'jack', 33;
 
 select * from test_window1;
 
@@ -153,47 +132,20 @@ create table business_window
 );
 
 insert into table business_window
-select
-    'jack', '2017-01-01', 10
-UNION ALL
-select
-    'tony', '2017-01-02', 15
-UNION ALL
-select
-    'jack', '2017-02-03', 23
-UNION ALL
-select
-    'tony', '2017-01-04', 29
-UNION ALL
-select
-    'jack', '2017-01-05', 46
-UNION ALL
-select
-    'jack', '2017-04-06', 42
-UNION ALL
-select
-    'tony', '2017-01-07', 50
-UNION ALL
-select
-    'jack', '2017-01-08', 55
-UNION ALL
-select
-    'mart', '2017-04-08', 62
-UNION ALL
-select
-    'mart', '2017-04-09', 68
-UNION ALL
-select
-    'neil', '2017-05-10', 12
-UNION ALL
-select
-    'mart', '2017-04-11', 75
-UNION ALL
-select
-    'neil', '2017-06-12', 80
-UNION ALL
-select
-    'mart', '2017-04-13', 94;
+select 'jack', '2017-01-01', 10
+UNION ALL select 'tony', '2017-01-02', 15
+UNION ALL select 'jack', '2017-02-03', 23
+UNION ALL select 'tony', '2017-01-04', 29
+UNION ALL select 'jack', '2017-01-05', 46
+UNION ALL select 'jack', '2017-04-06', 42
+UNION ALL select 'tony', '2017-01-07', 50
+UNION ALL select 'jack', '2017-01-08', 55
+UNION ALL select 'mart', '2017-04-08', 62
+UNION ALL select 'mart', '2017-04-09', 68
+UNION ALL select 'neil', '2017-05-10', 12
+UNION ALL select 'mart', '2017-04-11', 75
+UNION ALL select 'neil', '2017-06-12', 80
+UNION ALL select 'mart', '2017-04-13', 94;
 
 select * from business_window;
 
@@ -326,41 +278,18 @@ create table score_window
 );
 
 insert into table score_window
-select
-    '孙悟空', '语文', 87
-UNION ALL
-select
-    '孙悟空', '数学', 95
-UNION ALL
-select
-    '孙悟空', '英语', 68
-UNION ALL
-select
-    '大海', '语文', 94
-UNION ALL
-select
-    '大海', '数学', 56
-UNION ALL
-select
-    '大海', '英语', 84
-UNION ALL
-select
-    '宋宋', '语文', 64
-UNION ALL
-select
-    '宋宋', '数学', 86
-UNION ALL
-select
-    '宋宋', '英语', 84
-UNION ALL
-select
-    '婷婷', '语文', 65
-UNION ALL
-select
-    '婷婷', '数学', 85
-UNION ALL
-select
-    '婷婷', '英语', 78;
+select '孙悟空', '语文', 87
+UNION ALL select '孙悟空', '数学', 95
+UNION ALL select '孙悟空', '英语', 68
+UNION ALL select '大海', '语文', 94
+UNION ALL select '大海', '数学', 56
+UNION ALL select '大海', '英语', 84
+UNION ALL select '宋宋', '语文', 64
+UNION ALL select '宋宋', '数学', 86
+UNION ALL select '宋宋', '英语', 84
+UNION ALL select '婷婷', '语文', 65
+UNION ALL select '婷婷', '数学', 85
+UNION ALL select '婷婷', '英语', 78;
 
 select * from score_window;
 

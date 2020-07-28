@@ -12,29 +12,14 @@ create table if not exists windows_product
 
 
 INSERT INTO TABLE windows_product
-select
-    '0001', 'T恤衫', '衣服', 1000
-UNION ALL
-select
-    '0002', '打孔器', '办公用品', 500
-UNION ALL
-select
-    '0003', '运动T恤', '衣服', 4000
-UNION ALL
-select
-    '0004', '菜刀', '厨房用品', 3000
-UNION ALL
-select
-    '0005', '高压锅', '厨房用品', 6800
-UNION ALL
-select
-    '0006', '叉子', '厨房用品', 500
-UNION ALL
-select
-    '0007', '插菜板', '厨房用品', 880
-UNION ALL
-select
-    '0008', '圆珠笔', '办公用品', 100;
+select '0001', 'T恤衫', '衣服', 1000
+UNION ALL select '0002', '打孔器', '办公用品', 500
+UNION ALL select '0003', '运动T恤', '衣服', 4000
+UNION ALL select '0004', '菜刀', '厨房用品', 3000
+UNION ALL select '0005', '高压锅', '厨房用品', 6800
+UNION ALL select '0006', '叉子', '厨房用品', 500
+UNION ALL select '0007', '插菜板', '厨房用品', 880
+UNION ALL select '0008', '圆珠笔', '办公用品', 100;
 
 select * from windows_product;
 
