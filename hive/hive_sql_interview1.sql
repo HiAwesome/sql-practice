@@ -71,3 +71,112 @@ u03	2017-01	8	8
 u04	2017-01	3	3
 */
 
+
+/*
+第二题
+需求
+有50W个京东店铺，每个顾客访客访问任何一个店铺的任何一个商品时都会产生一条访问日志，
+访问日志存储的表名为Visit，访客的用户id为user_id，被访问的店铺名称为shop，数据如下：
+
+				u1	a
+				u2	b
+				u1	b
+				u1	a
+				u3	c
+				u4	b
+				u1	a
+				u2	c
+				u5	b
+				u4	b
+				u6	c
+				u2	c
+				u1	b
+				u2	a
+				u2	a
+				u3	a
+				u5	a
+				u5	a
+				u5	a
+请统计：
+(1)每个店铺的UV（访客数）
+(2)每个店铺访问次数top3的访客信息。输出店铺名称、访客id、访问次数
+*/
+
+CREATE TABLE test2
+(
+    user_id string,
+    shop    string
+);
+
+INSERT INTO TABLE
+    test2
+VALUES
+    ('u1', 'a'),
+    ('u2', 'b'),
+    ('u1', 'b'),
+    ('u1', 'a'),
+    ('u3', 'c'),
+    ('u4', 'b'),
+    ('u1', 'a'),
+    ('u2', 'c'),
+    ('u5', 'b'),
+    ('u4', 'b'),
+    ('u6', 'c'),
+    ('u2', 'c'),
+    ('u1', 'b'),
+    ('u2', 'a'),
+    ('u2', 'a'),
+    ('u3', 'a'),
+    ('u5', 'a'),
+    ('u5', 'a'),
+    ('u5', 'a');
+
+SELECT
+    shop,
+    count(DISTINCT user_id) uv
+FROM
+    test2
+GROUP BY
+    shop;
+/*
+a	4
+b	4
+c	3
+*/
+
+SELECT
+    t2.shop,
+    t2.user_id,
+    t2.cnt
+FROM
+    (SELECT
+         t1.*,
+         row_number() over (partition BY t1.shop ORDER BY t1.cnt DESC) rank
+     FROM
+         (SELECT
+              user_id,
+              shop,
+              count(*) AS cnt
+          FROM
+              test2
+          GROUP BY
+              user_id,
+              shop
+         ) t1
+    ) t2
+WHERE
+    rank <= 3;
+/*
+a	u5	3
+a	u1	3
+a	u2	2
+b	u4	2
+b	u1	2
+b	u5	1
+c	u2	2
+c	u6	1
+c	u3	1
+*/
+
+
+
