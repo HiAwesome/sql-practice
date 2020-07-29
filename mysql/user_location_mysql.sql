@@ -306,10 +306,10 @@ select
     location_id,
     u_dt,
     duration,
-    first_value(u_dt) over w as                                                   fv,
-    row_number() over w      as                                                   rn,
-    TIMESTAMPDIFF(hour, (first_value(u_dt) over w), u_dt)                         dd,
-    (row_number() over w) - TIMESTAMPDIFF(hour, (first_value(u_dt) over w), u_dt) gap
+    first_value(u_dt) over w as                                                                                   fv,
+    row_number() over w      as                                                                                   rn,
+    TIMESTAMPDIFF(hour, (first_value(u_dt) over w), u_dt)                                                         dd,
+    cast((row_number() over w) as signed) - cast(TIMESTAMPDIFF(hour, (first_value(u_dt) over w), u_dt) as signed) gap
 from
     user_location
     window
@@ -347,7 +347,8 @@ from
                     user_id,
                     location_id,
                     u_dt,
-                    (row_number() over w) - TIMESTAMPDIFF(hour, (first_value(u_dt) over w), u_dt) gap
+                    cast((row_number() over w) as signed) -
+                    cast(TIMESTAMPDIFF(hour, (first_value(u_dt) over w), u_dt) as signed) gap
                 from
                     user_location
                     window
