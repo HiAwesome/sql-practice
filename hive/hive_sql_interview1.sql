@@ -179,4 +179,66 @@ c	u3	1
 */
 
 
+/*
+第三题
+需求
+已知一个表STG.ORDER，有如下字段:Date，Order_id，User_id，amount。
+数据样例:2017-01-01,10029028,1000003251,33.57。
+请给出sql进行统计:
+(1)给出 2017年每个月的订单数、用户数、总成交金额。
+(2)给出2017年11月的新客数(指在11月才有第一笔订单)
+*/
+
+CREATE TABLE test3
+(
+    dt       string,
+    order_id string,
+    user_id  string,
+    amount   DECIMAL(10, 2)
+);
+
+INSERT INTO TABLE
+    test3
+VALUES
+    ('2017-01-01', '10029028', '1000003251', 33.57),
+    ('2017-01-01', '10029029', '1000003251', 33.57),
+    ('2017-01-01', '100290288', '1000003252', 33.57),
+    ('2017-02-02', '10029088', '1000003251', 33.57),
+    ('2017-02-02', '100290281', '1000003251', 33.57),
+    ('2017-02-02', '100290282', '1000003253', 33.57),
+    ('2017-11-02', '10290282', '100003253', 234),
+    ('2018-11-02', '10290284', '100003243', 234);
+
+SELECT
+    t1.mon,
+    count(t1.order_id)         AS order_cnt,
+    count(DISTINCT t1.user_id) AS user_cnt,
+    sum(amount)                AS total_amount
+FROM
+    (SELECT
+         order_id,
+         user_id,
+         amount,
+         date_format(dt, 'yyyy-MM') mon
+     FROM
+         test3
+     WHERE
+         date_format(dt, 'yyyy') = '2017') t1
+GROUP BY
+    t1.mon;
+/*
+2017-01	3	2	100.71
+2017-02	3	2	100.71
+2017-11	1	1	234.00
+*/
+
+SELECT
+    count(user_id)
+FROM
+    test3
+GROUP BY
+    user_id
+HAVING
+    date_format(min(dt), 'yyyy-MM') = '2017-11';
+-- 1
 
