@@ -303,7 +303,7 @@ from
         select
             a.user_id,
             a.login_date,
-            --5天前的登录日期
+            -- 5天前的登录日期
             lag(a.login_date, 4) over (partition by a.user_id order by a.login_date) pre_five_day
         from
             tm_login_log a
