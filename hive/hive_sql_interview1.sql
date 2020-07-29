@@ -728,8 +728,147 @@ ORDER BY
 LIMIT 10;
 -- 22.74.142.137	2
 
+/*
+第九题
+需求
+有一个充值日志表credit_log，字段如下：
+
+`dist_id` int  '区组id',
+`account` string  '账号',
+`money` int   '充值金额',
+`create_time` string  '订单时间'
+
+请写出SQL语句，查询充值日志表2019年01月02号每个区组下充值额最大的账号，要求结果：
+区组id，账号，金额，充值时间
+*/
+
+CREATE TABLE test9
+(
+    dist_id     string COMMENT '区组id',
+    account     string COMMENT '账号',
+    `money`     decimal(10, 2) COMMENT '充值金额',
+    create_time string COMMENT '订单时间'
+);
+
+INSERT INTO TABLE
+    test9
+VALUES
+    ('1', '11', 100006, '2019-01-02 13:00:01'),
+    ('1', '22', 110000, '2019-01-02 13:00:02'),
+    ('1', '33', 102000, '2019-01-02 13:00:03'),
+    ('1', '44', 100300, '2019-01-02 13:00:04'),
+    ('1', '55', 100040, '2019-01-02 13:00:05'),
+    ('1', '66', 100005, '2019-01-02 13:00:06'),
+    ('1', '77', 180000, '2019-01-03 13:00:07'),
+    ('1', '88', 106000, '2019-01-02 13:00:08'),
+    ('1', '99', 100400, '2019-01-02 13:00:09'),
+    ('1', '12', 100030, '2019-01-02 13:00:10'),
+    ('1', '13', 100003, '2019-01-02 13:00:20'),
+    ('1', '14', 100020, '2019-01-02 13:00:30'),
+    ('1', '15', 100500, '2019-01-02 13:00:40'),
+    ('1', '16', 106000, '2019-01-02 13:00:50'),
+    ('1', '17', 100800, '2019-01-02 13:00:59'),
+    ('2', '18', 100800, '2019-01-02 13:00:11'),
+    ('2', '19', 100030, '2019-01-02 13:00:12'),
+    ('2', '10', 100000, '2019-01-02 13:00:13'),
+    ('2', '45', 100010, '2019-01-02 13:00:14'),
+    ('2', '78', 100070, '2019-01-02 13:00:15');
+
+WITH
+    TEMP AS
+        (SELECT
+             dist_id,
+             account,
+             sum(`money`) sum_money
+         FROM
+             test9
+         WHERE
+             date_format(create_time, 'yyyy-MM-dd') = '2019-01-02'
+         GROUP BY
+             dist_id,
+             account)
+SELECT
+    t1.dist_id,
+    t1.account,
+    t1.sum_money
+FROM
+    (SELECT
+         temp.dist_id,
+         temp.account,
+         temp.sum_money,
+         rank() over (partition BY temp.dist_id
+             ORDER BY temp.sum_money DESC) ranks
+     FROM
+         TEMP) t1
+WHERE
+    ranks = 1;
+/*
+1	22	110000.00
+2	18	100800.00
+*/
 
 
+/*
+第十题
+需求
+有一个账号表如下，请写出SQL语句，查询各自区组的money排名前十的账号（分组取前10）
+dist_id string  '区组id',
+account string  '账号',
+gold     int    '金币'
+*/
+CREATE TABLE test10
+(
+    `dist_id` string COMMENT '区组id',
+    `account` string COMMENT '账号',
+    `gold`    int COMMENT '金币'
+);
 
+INSERT INTO TABLE
+    test10
+VALUES
+    ('1', '77', 18),
+    ('1', '88', 106),
+    ('1', '99', 10),
+    ('1', '12', 13),
+    ('1', '13', 14),
+    ('1', '14', 25),
+    ('1', '15', 36),
+    ('1', '16', 12),
+    ('1', '17', 158),
+    ('2', '18', 12),
+    ('2', '19', 44),
+    ('2', '10', 66),
+    ('2', '45', 80),
+    ('2', '78', 98);
 
+SELECT
+    dist_id,
+    account,
+    gold
+FROM
+    (SELECT
+         dist_id,
+         account,
+         gold,
+         row_number() over (PARTITION BY dist_id ORDER BY gold DESC) rank
+     FROM
+         test10) t
+WHERE
+    rank <= 10;
+/*
+1	17	158
+1	88	106
+1	15	36
+1	14	25
+1	77	18
+1	13	14
+1	12	13
+1	16	12
+1	99	10
+2	78	98
+2	45	80
+2	10	66
+2	19	44
+2	18	12
+*/
 
